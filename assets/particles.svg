@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="190" viewBox="0 0 1200 190" role="img" aria-labelledby="title desc">
+  <title id="title">Animated red particle banner</title>
+  <desc id="desc">Red and pink particles drift across a dark background with soft glowing connections.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#120d16"/>
+      <stop offset="0.55" stop-color="#241019"/>
+      <stop offset="1" stop-color="#10121b"/>
+    </linearGradient>
+    <radialGradient id="glow">
+      <stop offset="0" stop-color="#ff5263" stop-opacity=".2"/>
+      <stop offset="1" stop-color="#ff5263" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="8"/></filter>
+  </defs>
+  <rect width="1200" height="190" rx="18" fill="url(#bg)"/>
+  <ellipse cx="270" cy="90" rx="260" ry="125" fill="url(#glow)" filter="url(#blur)">
+    <animate attributeName="cx" values="250;930;250" dur="16s" repeatCount="indefinite"/>
+  </ellipse>
+  <g fill="none" stroke="#ff5263" stroke-opacity=".25" stroke-width="1">
+    <path d="M50 133 178 63 318 119 451 48 592 132 729 72 875 128 1032 50 1150 106">
+      <animate attributeName="stroke-opacity" values=".12;.48;.12" dur="5s" repeatCount="indefinite"/>
+    </path>
+    <path d="M90 42 178 63 237 157 318 119 392 164 451 48 520 34 592 132 664 161 729 72 808 32 875 128 957 160 1032 50 1102 36">
+      <animate attributeName="stroke-opacity" values=".4;.08;.4" dur="6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <g fill="#ff5263">
+    <circle cx="50" cy="133" r="3"><animate attributeName="cy" values="133;119;133" dur="3.8s" repeatCount="indefinite"/></circle>
+    <circle cx="178" cy="63" r="4"><animate attributeName="r" values="3;5;3" dur="3s" repeatCount="indefinite"/></circle>
+    <circle cx="237" cy="157" r="2.5"><animate attributeName="cy" values="157;145;157" dur="4.4s" repeatCount="indefinite"/></circle>
+    <circle cx="318" cy="119" r="4"><animate attributeName="r" values="4;2.5;4" dur="3.7s" repeatCount="indefinite"/></circle>
+    <circle cx="392" cy="164" r="2.5"><animate attributeName="cy" values="164;151;164" dur="4.1s" repeatCount="indefinite"/></circle>
+    <circle cx="451" cy="48" r="4"><animate attributeName="r" values="3;5;3" dur="3.4s" repeatCount="indefinite"/></circle>
+    <circle cx="520" cy="34" r="2.5"><animate attributeName="cy" values="34;47;34" dur="4.7s" repeatCount="indefinite"/></circle>
+    <circle cx="592" cy="132" r="4"><animate attributeName="r" values="4;2;4" dur="3.5s" repeatCount="indefinite"/></circle>
+    <circle cx="664" cy="161" r="2.5"><animate attributeName="cy" values="161;148;161" dur="4.2s" repeatCount="indefinite"/></circle>
+    <circle cx="729" cy="72" r="4"><animate attributeName="r" values="3;5;3" dur="3.2s" repeatCount="indefinite"/></circle>
+    <circle cx="808" cy="32" r="2.5"><animate attributeName="cy" values="32;45;32" dur="4.6s" repeatCount="indefinite"/></circle>
+    <circle cx="875" cy="128" r="4"><animate attributeName="r" values="4;2.5;4" dur="3.6s" repeatCount="indefinite"/></circle>
+    <circle cx="957" cy="160" r="2.5"><animate attributeName="cy" values="160;146;160" dur="4.3s" repeatCount="indefinite"/></circle>
+    <circle cx="1032" cy="50" r="4"><animate attributeName="r" values="3;5;3" dur="3.1s" repeatCount="indefinite"/></circle>
+    <circle cx="1102" cy="36" r="2.5"><animate attributeName="cy" values="36;48;36" dur="4.8s" repeatCount="indefinite"/></circle>
+    <circle cx="1150" cy="106" r="3"><animate attributeName="r" values="2;4;2" dur="3.9s" repeatCount="indefinite"/></circle>
+  </g>
+  <g fill="#ff9aa5" opacity=".8">
+    <circle cx="107" cy="91" r="1.7"><animate attributeName="cy" values="91;76;91" dur="5s" repeatCount="indefinite"/></circle>
+    <circle cx="270" cy="42" r="1.5"><animate attributeName="cy" values="42;56;42" dur="4s" repeatCount="indefinite"/></circle>
+    <circle cx="552" cy="83" r="1.8"><animate attributeName="cy" values="83;70;83" dur="4.5s" repeatCount="indefinite"/></circle>
+    <circle cx="782" cy="141" r="1.6"><animate attributeName="cy" values="141;128;141" dur="4.2s" repeatCount="indefinite"/></circle>
+    <circle cx="984" cy="94" r="1.8"><animate attributeName="cy" values="94;108;94" dur="3.8s" repeatCount="indefinite"/></circle>
+    <circle cx="1130" cy="150" r="1.5"><animate attributeName="cy" values="150;137;150" dur="4.7s" repeatCount="indefinite"/></circle>
+  </g>
+</svg>

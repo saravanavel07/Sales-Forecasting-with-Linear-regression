@@ -1,187 +1,100 @@
-# Sales Forecasting with Linear Regression
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=28&pause=900&color=F04F4F&center=true&vCenter=true&width=780&lines=Python+News+Alerts;NewsAPI+%E2%86%92+WhatsApp;Automated+updates+with+Twilio" alt="Animated project title" />
+</p>
 
-Predict future sales using a simple and interpretable Linear Regression pipeline built in Python.
+<p align="center">
+  <img src="assets/particles.svg" alt="Animated red particles" width="100%" />
+</p>
 
-Badges
-- Build / CI: ![CI](https://img.shields.io/badge/ci-none-lightgrey)
-- Python: ![Python](https://img.shields.io/badge/python-3.8%2B-blue)
-- License: ![MIT](https://img.shields.io/badge/license-MIT-green)
+<h1 align="center">News Alerts to WhatsApp</h1>
 
-Table of Contents
-- [About](#about)
-- [Features](#features)
-- [Demo / Example Output](#demo--example-output)
-- [Repository Structure](#repository-structure)
-- [Requirements](#requirements)
-- [Getting Started](#getting-started)
-  - [Install](#install)
-  - [Prepare Data](#prepare-data)
-  - [Train Model](#train-model)
-  - [Evaluate Model](#evaluate-model)
-- [How it Works](#how-it-works)
-- [Results & Metrics](#results--metrics)
-- [Reproducibility](#reproducibility)
-- [Notebooks](#notebooks)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
+<p align="center">
+  A lightweight Python command-line app that fetches the latest articles for a topic and can deliver them to WhatsApp through Twilio.
+</p>
 
-About
------
-This project demonstrates a complete, minimal pipeline for sales forecasting using Linear Regression (scikit-learn). It includes data loading, preprocessing, feature engineering, training, evaluation, and basic visualization to help you understand the end-to-end workflow.
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/NewsAPI-articles-222222" alt="NewsAPI" />
+  <img src="https://img.shields.io/badge/Twilio-WhatsApp-F22F46?logo=twilio&logoColor=white" alt="Twilio WhatsApp" />
+  <img src="https://img.shields.io/badge/Interface-CLI-555555" alt="Command-line interface" />
+</p>
 
-Features
---------
-- Clean, documented Python code for a reproducible forecasting pipeline.
-- Data preprocessing (missing values, date-based features).
-- Train/test splitting and cross-validation.
-- Evaluation using MAE, MSE, RMSE, and R².
-- Jupyter notebooks for exploration and visualization.
-- Scripts to train and evaluate the model.
+## What it does
 
-Demo / Example Output
----------------------
-Example commands (assuming you place a CSV at `data/sales.csv`):
+- Fetches up to three recent English articles for a topic from NewsAPI.
+- Formats each article with its title, source, publication date, and link.
+- Can send the results to a WhatsApp number using Twilio.
+- Supports one-time runs, periodic polling, multiple topics, and a dry-run mode.
+- Keeps message sending disabled by default unless explicitly enabled.
+
+## Tech stack
+
+| Category | Tools and technologies |
+| --- | --- |
+| Language | Python |
+| APIs / integrations | NewsAPI, Twilio REST API (WhatsApp) |
+| Python packages | `requests`; `twilio` for WhatsApp sending |
+| Standard library | `argparse`, `logging`, `os`, `re`, `time` |
+| Frameworks | No web or application framework; this is a command-line script |
+
+## Get started
+
+Install the dependencies:
+
 ```bash
-# train model
-python src/train.py --data data/sales.csv --output models/linear_regression.joblib
-
-# evaluate model
-python src/eval.py --model models/linear_regression.joblib --data data/sales.csv
+python -m pip install requests twilio
 ```
 
-Typical evaluation metrics (example — replace with your run's numbers):
-- MAE: 123.45
-- RMSE: 234.56
-- R²: 0.78
+Configure credentials as environment variables rather than putting secrets in source code:
 
-Repository Structure
---------------------
-- data/                      # (gitignored) raw and processed datasets
-- notebooks/                 # exploratory notebooks (EDA, feature engineering)
-- src/
-  - data_processing.py       # functions for cleaning and feature engineering
-  - train.py                 # training script
-  - eval.py                  # evaluation script
-  - predict.py               # single-run inference / example usage
-  - utils.py                 # helper functions
-- models/                    # saved model artifacts
-- requirements.txt
-- README.md
-
-Requirements
-------------
-- Python 3.8+
-- See requirements.txt for the exact versions:
-  - pandas
-  - numpy
-  - scikit-learn
-  - matplotlib or seaborn (for visualizations)
-  - joblib
-
-Getting Started
----------------
-1. Clone the repo:
 ```bash
-git clone https://github.com/saravanavel07/Sales-Forecasting-with-Linear-regression.git
-cd Sales-Forecasting-with-Linear-regression
+export NEWS_API_KEY="your-newsapi-key"
+export TWILIO_SID="your-twilio-account-sid"
+export TWILIO_AUTH_TOKEN="your-twilio-auth-token"
+export FROM_WHATSAPP_NUMBER="whatsapp:+14155238886"
+export TO_WHATSAPP_NUMBER="whatsapp:+your-number"
 ```
 
-2. Create a virtual environment and install dependencies:
+Run once without sending a message:
+
 ```bash
-python -m venv .venv
-source .venv/bin/activate   # macOS / Linux
-.venv\Scripts\activate      # Windows
-pip install -r requirements.txt
+python app.py --once --dry-run
 ```
 
-3. Prepare your data:
-- Place your sales CSV in `data/sales.csv` or pass a path to the script.
-- CSV expectations (example columns):
-  - date (YYYY-MM-DD)
-  - store_id (optional)
-  - item_id (optional)
-  - sales (numeric) — target column
-  - any other features (promotion, price, etc.)
+Fetch and send updates for one or more topics (sending must be explicitly enabled):
 
-Train Model
------------
-Train using the provided script:
 ```bash
-python src/train.py --data data/sales.csv --target sales --date_col date --output models/linear_regression.joblib
+python app.py --topics "technology,markets" --once --send
 ```
-Options:
-- --data: path to CSV
-- --target: name of target column (default: sales)
-- --date_col: name of date column if present (optional)
-- --output: path to save fitted model
 
-Evaluate Model
---------------
-Evaluate a saved model:
+Run continuously, checking every hour by default:
+
 ```bash
-python src/eval.py --model models/linear_regression.joblib --data data/sales.csv --target sales
+python app.py --topics "technology,markets" --interval 3600 --send
 ```
-This prints MAE, MSE, RMSE, R² and saves a simple prediction vs actual plot to `reports/`.
 
-How it Works
-------------
-1. Load CSV.
-2. Parse dates and create date features (day, month, year, weekday).
-3. Aggregate or filter by store/item if needed.
-4. Fill missing values and scale features (if applicable).
-5. Split to train/test (time-based split recommended for forecasting).
-6. Train a scikit-learn LinearRegression model.
-7. Evaluate with standard regression metrics.
+Use `--help` to see all available options. WhatsApp delivery also requires a correctly configured Twilio WhatsApp sender and recipient.
 
-Notes on Forecasting
---------------------
-- Linear Regression is a baseline: it's fast and interpretable but may underperform complex time-series models.
-- For time series forecasting, prefer time-based train/test split (no random shuffling).
-- Consider lag features, rolling means, or using models like ARIMA, Prophet, or tree-based regressors for improved performance.
+## Configuration
 
-Results & Metrics
------------------
-- Use MAE (mean absolute error) and RMSE for interpretability in original units.
-- R² gives a quick sense of variance explained.
-- Cross-validate using time-series aware CV where appropriate (e.g., expanding window).
+| Variable / option | Purpose |
+| --- | --- |
+| `NEWS_API_KEY` | NewsAPI key |
+| `TOPIC` | Default topic when `--topics` is omitted |
+| `TWILIO_SID`, `TWILIO_AUTH_TOKEN` | Twilio credentials |
+| `FROM_WHATSAPP_NUMBER`, `TO_WHATSAPP_NUMBER` | WhatsApp sender and recipient addresses |
+| `SEND_MESSAGES=1` or `--send` | Explicitly allow sending messages |
+| `--dry-run` | Fetch results and log a preview without sending |
+| `--once`, `--interval` | Run once or set the polling interval in seconds |
 
-Reproducibility
----------------
-- Seed random_state in train/test split and model training to make results reproducible.
-- Save full preprocessing pipeline (e.g., with sklearn's Pipeline) alongside the model.
-- Version datasets (store raw CSVs or use hashes) so experiments can be reproduced.
+> **Security:** Keep API keys and Twilio credentials private. If credentials have ever been committed to a public repository, revoke and rotate them, then load the replacements from environment variables.
 
-Notebooks
----------
-See `notebooks/` for:
-- EDA.ipynb — exploratory data analysis and visualization
-- FeatureEngineering.ipynb — building lag/rolling features
-- ModelComparison.ipynb — comparing Linear Regression vs alternatives
+## Project file
 
-Contributing
-------------
-Contributions are welcome:
-1. Fork the repo.
-2. Create a feature branch (git checkout -b feature/your-feature).
-3. Commit changes and open a pull request.
-4. Ensure your code has clear documentation and, if applicable, tests.
+- `app.py` — fetches news, formats results, and optionally sends WhatsApp messages.
+- `README.md` — project documentation.
+- `assets/particles.svg` — animated particle banner used above.
 
-Suggested improvements:
-- Add unit tests for preprocessing.
-- Add a CI workflow to run tests and style checks.
-- Add hyperparameter tuning and better time-series CV.
+---
 
-License
--------
-This project is provided under the MIT License. See LICENSE for details.
-
-Contact
--------
-Maintainer: saravanavel07
-- GitHub: https://github.com/saravanavel07
-- Email: (add your email here if you want to be contacted)
-
-Acknowledgements
-----------------
-- Inspired by practical forecasting tutorials — adapt as needed for your dataset and business requirements.
+<p align="center">Made with Python · NewsAPI · Twilio</p>
